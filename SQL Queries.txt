@@ -1,0 +1,420 @@
+1) 
+CREATE DATABASE college;
+
+2)
+CREATE TABLE student_details(
+	Roll int,
+	Name varchar(15),
+	Gender varchar(15),
+	Age int,
+	GPA double(3,2),
+	City varchar(15)
+);
+
+3)
+INSERT INTO student_details
+(Roll, Name, Gender, Age, GPA, City)
+VALUES
+(101, 'Rahim','Male', 18, 3.44, 'Sylhet');
+
+4)
+INSERT INTO student_details
+VALUES
+(102, '1Rahim','Male', 19, 3.45, 'Sylhet'),
+(103, '2Rahim','Male', 20, 3.46, 'Sylhet'),
+(104, '3Rahim','Male', 21, 3.47, 'Sylhet'),
+(105, '4Rahim','Male', 22, 3.48, 'Sylhet')
+;
+
+5) 
+SELECT Name 
+FROM `student_details`;
+
+6)
+SELECT * 
+FROM `student_details`;
+
+7)
+SELECT Roll, Name, GPA 
+FROM `student_details`;
+
+8)
+UPDATE `student_details` 
+SET `Name` = 'Hasina', `Gender` = 'Female', `Age` = '17', `GPA` = '4.50', `City` = 'Dhaka' 
+WHERE `student_details`.`Roll` = 102;
+
+9)
+SELECT
+DISTINCT city 
+FROM `student_details`;
+
+10) return 1-5 row
+
+SELECT * 
+FROM `student_details` 
+LIMIT 5;
+
+11) return 2-7 row
+
+SELECT * 
+FROM `student_details` 
+LIMIT 2,5;
+
+12) Sorting
+
+SELECT Name 
+FROM `student_details` 
+ORDER BY name;
+
+SELECT Name, Age, Gender 
+FROM `student_details` 
+ORDER BY Name;
+
+SELECT Roll, Name, GPA 
+FROM `student_details` 
+ORDER BY Name DESC;
+
+SELECT Roll, Name, GPA 
+FROM `student_details` 
+ORDER BY Name DESC, GPA ASC;
+
+13) Arithmetic operation
+SELECT 5+2;
+
+14) WHERE
+SELECT City
+FROM student_details
+WHERE Gender = 'Female';
+
+SELECT City
+FROM student_details
+WHERE Gender = 'Female'
+ORDER BY City DESC;
+
+SELECT Age
+FROM student_details
+WHERE Age >= 17
+ORDER BY City DESC;
+
+15) BETWEEN...AND
+SELECT *
+FROM student_details
+WHERE Roll 
+BETWEEN 102 AND 105;
+
+16) OR/AND
+SELECT *
+FROM student_details
+WHERE Gender="Male" OR GPA >= 3.50;
+
+SELECT *
+FROM student_details
+WHERE Gender="Male" AND GPA >= 3.50;
+
+SELECT *
+FROM student_details
+WHERE City ='Sylhet' AND(Gender ='Female' OR GPA >= 3.50);
+
+17) IN / NOT IN
+SELECT *
+FROM student_details
+WHERE City IN ('Sylhet', 'Dhaka', 'Barisal');
+
+SELECT *
+FROM student_details
+WHERE City NOT IN ('Sylhet', 'Dhaka', 'Barisal');
+
+18) LIKE
+SELECT *
+FROM student_details
+WHERE Name LIKE 'S%'; //Start with S
+
+SELECT *
+FROM student_details
+WHERE Name LIKE '%A'; //End with A
+
+SELECT *
+FROM student_details
+WHERE Name LIKE '%ha%'; // substring match
+
+SELECT *
+FROM student_details
+WHERE Name LIKE '_af%'; //position start with af
+
+19) AS
+SELECT Roll AS ID, Name AS 'FIrst Name'
+FROM student_details;
+
+20)
+DROP TABLE teacher;
+
+21) Constraints
+CREATE TABLE teacher(
+    ID int NOT NULL AUTO_INCREMENT,
+	Name Varchar(15) NOT NULL,
+    Salary double(10,2),
+    PRIMARY KEY(ID)
+);
+
+INSERT INTO teacher
+VALUES
+(1, 'Hasan', 70000);
+
+INSERT INTO teacher
+(Name, Salary)
+VALUES
+('Hasan', 70000);
+
+INSERT INTO teacher
+(Id, Name, Salary)
+VALUES
+(5,'Hasan', 70000);
+
+INSERT INTO teacher
+(Name, Salary)
+VALUES
+('Hasan', 70000);
+
+22) update
+UPDATE teacher
+SET salary=30000
+WHERE ID=5
+
+UPDATE teacher
+SET Salary = Salary + 5000
+WHERE Salary > 30000;
+
+23) delete
+DELETE FROM teacher
+WHERE Id = 5;
+
+23) UPPER/LOWER/CONCAT/GREATEST/LEAST/POW/LOG/TRUNCATE/RAND/EXP function
+
+SELECT UPPER('I am Kamrul Hasan');
+SELECT LOWER('I am Kamrul Hasan');
+
+SELECT UPPER(City) AS City_As_Upper
+FROM student_details;
+
+SELECT CONCAT("I am ","hasan");
+
+SELECT CONCAT(Name, ' is ', Age, ' years old')
+FROM student_details;
+
+SELECT CONCAT(Name, ' is ', Age, ' years old')
+AS student
+FROM student_details;
+
+SELECT GREATEST(1,2,13,5);
+SELECT LEAST(1,2,13,5);
+SELECT POW(2,3);
+SELECT LOG(2);
+SELECT TRUNCATE(10.573657845,3);
+SELECT TRUNCATE(LOG(2),3);
+SELECT RAND();
+SELECT EXP(3);
+
+
+Aggregate/Group Functions:
+---------------------------------------
+
+24) 
+DESCRIBE teacher;
+
+25) COUNT/MAX/MIN/AVG/SUM
+
+SELECT COUNT(*) 
+FROM student_details;
+
+SELECT MAX(GPA) 
+FROM student_details;
+
+SELECT MIN(GPA) 
+FROM student_details;
+
+SELECT SUM(Salary),AVG(Salary) 
+FROM teacher;
+
+SELECT MIN(GPA)
+FROM student_details
+WHERE Gender='Female';
+
+SELECT Roll,Name,Age,City,MIN(GPA)
+FROM student_details
+WHERE Gender='Female';
+
+27) Sub query
+
+SELECT *
+FROM teacher
+WHERE Salary >= (SELECT AVG(Salary) FROM teacher);
+
+28) ALTER TABLE
+//column add
+ALTER TABLE teacher
+ADD Age int(5);
+
+ALTER TABLE teacher
+ADD Dept varchar(15);
+
+//change column name
+ALTER TABLE teacher
+CHANGE Dept Department varchar(15);
+
+// DELETE column
+ALTER TABLE teacher
+DROP COLUMN Age;
+
+29) GROUP BY
+SELECT Department,SUM(Salary)
+FROM teacher
+GROUP BY Department
+ORDER BY SUM(Salary) DESC;
+
+30) Delete all entries
+TRUNCATE TABLE student_details;
+
+31) JOINING TABLE
+
+CREATE TABLE student_details_2(
+    Roll int NOT NULL AUTO_INCREMENT,
+    Name varchar(15) NOT NULL,
+    Gender varchar(10),
+    age int,
+    PRIMARY Key(Roll)
+);
+
+INSERT INTO student_details_2
+(Name, Gender, age)
+VALUES
+('Farzana', 'Female', 17),
+('Mahfuz', 'Male', 18),
+('Farzana', 'Female', 17)
+;
+
+CREATE TABLE exam_result(
+    Reg_Number int NOT NULL,
+    Roll int,
+    GPA double(3,2),
+    Group_name varchar(15),
+    PRIMARY KEY(Reg_Number)
+);
+
+INSERT INTO exam_result
+VALUES
+(20171, 102, 3.25, 'Science'),
+(20172, 101, 3.44, 'Arts'),
+(20173, 103, 4, 'Science'),
+(20174, 104, 5, 'Commerce');
+
+// get data from multiple tables
+SELECT student_details_2.ROLL, Reg_Number, Name, Gender, Group_Name, GPA
+FROM student_details_2, exam_result
+WHERE student_details_2.Roll = exam_result.Roll;
+
+//custom naming
+SELECT std_2.ROLL, exam.Reg_Number, std_2.Name, std_2.Gender, exam.Group_Name, exam.GPA
+FROM student_details_2 AS std_2, exam_result AS exam
+WHERE std_2.Roll = exam.Roll;
+
+32) JOIN
+SELECT std_2.ROLL, exam.Reg_Number, std_2.Name, std_2.Gender, exam.Group_Name, exam.GPA
+FROM student_details_2 AS std_2 JOIN exam_result AS exam
+ON std_2.Roll = exam.Roll;
+
+INNER JOIN ( same as JOIN)
+SELECT std_2.ROLL, exam.Reg_Number, std_2.Name, std_2.Gender, exam.Group_Name, exam.GPA
+FROM student_details_2 AS std_2 INNER JOIN exam_result AS exam
+ON std_2.Roll = exam.Roll;
+
+SELECT std_2.ROLL, exam.Reg_Number, std_2.Name, std_2.Gender, exam.Group_Name, exam.GPA
+FROM student_details_2 AS std_2 LEFT JOIN exam_result AS exam
+ON std_2.Roll = exam.Roll;
+
+SELECT std_2.ROLL, exam.Reg_Number, std_2.Name, std_2.Gender, exam.Group_Name, exam.GPA
+FROM student_details_2 AS std_2 RIGHT JOIN exam_result AS exam
+ON std_2.Roll = exam.Roll;
+
+
+33) UNINION / UNINON ALL
+
+CREATE TABLE sylhet_tour(
+    Roll int,
+    Name Varchar(15),
+    Gender Varchar(10),
+    Age int,
+    PRIMARY KEY(Roll)
+);
+
+INSERT INTO sylhet_tour
+VALUES
+(101,'Rahim','Male',18),
+(102,'Karim','Male',17),
+(103,'Sujon','Male',18),
+(104,'Rahima','Feale',18);
+
+CREATE TABLE dhaka_tour(
+    Roll int,
+    Name Varchar(15),
+    Gender Varchar(10),
+    Age int,
+    PRIMARY KEY(Roll)
+);
+
+INSERT INTO dhaka_tour 
+VALUES 
+(104,'Rahima','Female',18), 
+(105,'Farjana','Female',17), 
+(106,'Mahfuza','Female',18), 
+(107,'Shakila','Female',17);
+
+SELECT Roll, Name, Gender
+FROM sylhet_tour
+
+UNION
+
+SELECT Roll, Name, Gender
+FROM dhaka_tour
+
+
+SELECT Roll, Name, Gender
+FROM sylhet_tour
+
+UNION ALL
+
+SELECT Roll, Name, Gender
+FROM dhaka_tour
+
+
+34) CREATE VIEW
+
+//create virtual tbale
+
+CREATE VIEW student_view AS
+SELECT Roll, Name, Gender
+FROM student_details;
+
+SELECT * FROM `student_view`;
+
+INSERT INTO `student_view`
+VALUES
+(109,'Hasina','Femlae');
+
+
+DROP VIEW student_view;
+
+35) TIMe related functions
+
+SELECT CURDATE();
+SELECT CURTIME();
+SELECT NOW();
+SELECT ADDDATE('2017-9-15', INTERVAL 5 DAY);
+SELECT SUBDATE('2017-9-15', INTERVAL 5 DAY);
+SELECT ADDDATE('2017-9-15', INTERVAL 5 MONTH);
+SELECT SUBDATE('2017-9-15', INTERVAL 5 MONTH);
+SELECT MAKEDATE(2017,312);
+SELECT DAYNAME('2017-9-14');
+SELECT MONTHNAME('2017-9-14');
+
+SELECT DAYNAME(DOB) FROM student_details;
+SELECT DOB, DAYNAME(DOB) FROM student_details;
